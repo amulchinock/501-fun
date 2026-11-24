@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 interface PlayerData {
   name: string;
   photo?: string;
@@ -75,18 +77,25 @@ export default async function Home() {
             <tbody>
               {
                 matchData.map((match, index) => (
-                  <tr key={ match.sessionID } className={ `border-b dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600 ${index % 2 !== 0 ? "bg-neutral-50 dark:bg-neutral-800" : "" }` }>
+                  <tr key={ match.sessionID } className={ `relative cursor-pointer border-b dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600 ${index % 2 !== 0 ? "bg-neutral-50 dark:bg-neutral-800" : "" }` }>
                     <th scope="row" className="px-6 py-5">
-                      { match.sessionID }
+                      <Link className="after:absolute after:inset-0 after:content-[''] focus-visible:after:outline-2 focus-visible:after:outline-blue-600"
+                        href={{
+                        pathname: `/sessions/${ match.sessionID }`
+                      }}>
+                        { match.sessionID }
+                      </Link>
                     </th>
-                    <td className="px-6 py-5">{ match.players.length }</td>
+                    <td className="px-6 py-5">
+                      { match.players.length }
+                    </td>
                     <td className="px-6 py-5">
                       { 
                         match.players.length ? 
                           match.players.reduce((total, player) => (
                             total + player.gameScore
                           ), 0) / match.players.length
-                        : "0"
+                        : 0
                       }
                     </td>
                     <td className="px-6 py-5">
