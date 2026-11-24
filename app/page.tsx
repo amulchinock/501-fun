@@ -1,21 +1,5 @@
 import Link from "next/link";
-
-interface PlayerData {
-  name: string;
-  photo?: string;
-}
-
-interface PlayerGameData extends PlayerData {
-  gameScore: number;
-}
-
-interface SessionData {
-  sessionID: string;
-  date: string;
-  players: Array<PlayerGameData>;
-  status: "active" | "completed";
-  videoURL?: string;
-}
+import { type SessionData } from "./types";
 
 export default async function Home() {
   const matchData : Array<SessionData> = [
@@ -81,7 +65,7 @@ export default async function Home() {
                     <th scope="row" className="px-6 py-5">
                       <Link className="after:absolute after:inset-0 after:content-[''] focus-visible:after:outline-2 focus-visible:after:outline-blue-600"
                         href={{
-                        pathname: `/sessions/${ match.sessionID }`
+                          pathname: `/sessions/${ match.sessionID }`
                       }}>
                         { match.sessionID }
                       </Link>
