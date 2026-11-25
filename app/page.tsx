@@ -10,7 +10,8 @@ export default async function Home() {
       players: [
         {
           name: "Alex",
-          gameScore: 0
+          gameScore: 0,
+          photoURL: ""
         }
       ]
     },
