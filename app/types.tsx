@@ -1,6 +1,6 @@
 export interface PlayerData {
   name: string;
-  photo?: string;
+  photoURL: string;
 }
 
 export interface PlayerGameData extends PlayerData {
