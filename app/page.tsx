@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { type SessionData } from "@/app/types";
+import { type SessionData } from "@/lib/types";
 
 export default async function Home() {
   const matchData : Array<SessionData> = [

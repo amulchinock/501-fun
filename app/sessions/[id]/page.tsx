@@ -1,4 +1,4 @@
-import { type SessionData } from "@/app/types";
+import { type SessionData } from "@/lib/types";
 import Image from 'next/image';
 
 export default async function GameSessions() {
