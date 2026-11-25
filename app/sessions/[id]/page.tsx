@@ -1,25 +1,24 @@
-import { type SessionData } from "@/lib/types";
+import { type sessionID, type SessionData } from "@/lib/types";
 import Image from 'next/image';
 
-export default async function GameSessions() {
-    const matchData : SessionData = {
-        sessionID: "abc-123",
-        date: "2012-01-01",
-        status: "active",
-        videoURL: "https://www.youtube-nocookie.com/embed/vnCVVL7blZU?si=uuSLl_vcmJyqmI_j",
-        players: [
-            {
-                name: "Alex",
-                gameScore: 0,
-                photoURL: "https://placehold.net/avatar-5.svg"
-            },
-            {
-                name: "John",
-                gameScore: 15,
-                photoURL: "https://placehold.net/avatar-3.svg"
-            }
-        ]
-    };
+async function getSessionData(sessionId: sessionID) {
+    'use cache';
+    const req = await fetch(`http://localhost:3001/sessions/${sessionId}`);
+
+    if (!req.ok) {
+        throw new Error('Failed to load session data');
+    }
+
+    return await req.json();
+}
+
+export default async function GameSessions({
+  params,
+}: {
+  params: Promise<{ id: sessionID }>;
+}) {
+    const { id } = await params;
+    const matchData : SessionData = await getSessionData(id);
 
     return (
         <div>

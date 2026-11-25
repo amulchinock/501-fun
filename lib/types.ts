@@ -1,16 +1,26 @@
-export interface PlayerData {
+export type sessionID = string;
+type sessionStatus = "active" | "completed";
+
+interface PlayerData {
   name: string;
   photoURL: string;
 }
 
-export interface PlayerGameData extends PlayerData {
+interface PlayerGameData extends PlayerData {
   gameScore: number;
 }
 
 export interface SessionData {
-  sessionID: string;
+  sessionID: sessionID;
   date: string;
   players: Array<PlayerGameData>;
-  status: "active" | "completed";
+  status: sessionStatus;
   videoURL?: string;
+}
+
+export interface MatchSummaryData {
+  sessionID: sessionID;
+  playerCount: number;
+  averagePlayerScore: number;
+  status: sessionStatus;
 }
