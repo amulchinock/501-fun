@@ -44,12 +44,12 @@ app.get("/sessions/:id", (_req, res : Response<SessionData>) => {
             {
                 name: "Alex",
                 gameScore: 0,
-                photoURL: "https://placehold.net/avatar-5.svg"
+                photoURL: "profile.png"
             },
             {
                 name: "John",
                 gameScore: 15,
-                photoURL: "https://placehold.net/avatar-3.svg"
+                photoURL: "profile.png"
             }
         ]
     });
@@ -66,7 +66,7 @@ const server = app.listen(port, () => {
 
 const wss = new WebSocketServer({
   server,
-  path: "/",
+  path: "/live-session",
   maxPayload: 1024 * 1024,
 });
 
@@ -76,7 +76,30 @@ wss.on("connection", (socket) => {
   });
 
   socket.on("message", (data, isBinary) => {
-    socket.send(data, { binary: isBinary });
+    if (isBinary) {
+        return;
+    }
+    
+    const matchData : SessionData = JSON.parse(data.toString());
+
+    // Simulates gameplay, including adding new players
+    setInterval(() => {
+        matchData.players[Math.floor(Math.random() * matchData.players.length)].gameScore++;
+
+        // A 4% chance that a new player will join during the game, just for fun...
+        // 0, 28, 56, 84
+        if (Math.floor(Math.random() * 100) % 28 === 0) {
+            const names = ['Sarah', 'Leisse', 'Dom', 'Alfie', 'Dan', 'Richard'];
+
+            matchData.players.push({
+                gameScore: 0,
+                photoURL: 'profile.png',
+                name: names[Math.floor(Math.random() * names.length)]
+            });
+        }
+
+        socket.send(JSON.stringify(matchData));
+    }, 2000);
   });
 });
 
