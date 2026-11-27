@@ -6,7 +6,7 @@ interface PlayerData {
   photoURL: string;
 }
 
-interface PlayerGameData extends PlayerData {
+export interface PlayerGameData extends PlayerData {
   gameScore: number;
 }
 
